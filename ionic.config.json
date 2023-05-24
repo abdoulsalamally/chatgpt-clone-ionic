@@ -1,0 +1,7 @@
+{
+  "name": "chatgpt-ionic",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
