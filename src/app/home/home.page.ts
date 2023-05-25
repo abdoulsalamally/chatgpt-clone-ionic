@@ -4,7 +4,7 @@ import { Message } from '../models/messages.model';
 import axios from 'axios'
 import { IonContent } from '@ionic/angular';
 import { CustomValidators } from '../utils/custom.validators';
-
+import { AlertController } from '@ionic/angular';
 
 @Component({
   selector: 'app-home',
@@ -21,7 +21,7 @@ export class HomePage {
   })
 
   loading: boolean =false;
-  constructor() {}
+  constructor(private alertController: AlertController) {}
 
   submit(){
 
@@ -58,7 +58,12 @@ export class HomePage {
         this.loading = false;
       })
       .catch((error) =>{
-        console.log(error);
+       // console.log(error);
+        this.presentAlert(error.message)
+        this.form.reset();
+        this.form.enable();
+        this.typeText('We could not process your request, please try again later...')
+        this.loading = false;
       });
   
     }
@@ -66,6 +71,17 @@ export class HomePage {
    
    
      
+  }
+
+  async presentAlert(error:any) {
+    const alert = await this.alertController.create({
+      header: 'Error',
+      subHeader: 'Something went wrong',
+      message: error,
+      buttons: ['OK'],
+    });
+
+    await alert.present();
   }
 
   typeText(text:string){
